@@ -10,5 +10,7 @@ data class Product(
     @SerializedName("photo_url")
     val photoUrl: String,
 
-    val price: Double
+    val price: Double,
+
+    val isOnSale: Boolean
     )

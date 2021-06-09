@@ -1,11 +1,18 @@
 package com.example.ecom
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Log.d
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.room.Room
+import com.example.ecom.database.AppDatabase
+import com.example.ecom.database.ProductFromDatabase
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +22,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        doAsync {
 
+            val db = Room.databaseBuilder(
+                applicationContext,
+                AppDatabase::class.java, "database-name"
+            ).build()
+            db.productDao().insertAll(ProductFromDatabase(null, "Socks", 1.99))
+            val products = db.productDao().getAll()
+
+            uiThread {
+                Log.e("budi", "product size? ${products.size}")
+            }
+
+        }
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, MainFragment())
