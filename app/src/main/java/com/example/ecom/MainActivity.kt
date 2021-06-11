@@ -1,18 +1,20 @@
 package com.example.ecom
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Log.d
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.room.Room
+import com.example.ecom.cart.CartActivity
 import com.example.ecom.database.AppDatabase
 import com.example.ecom.database.ProductFromDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,6 +58,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.actionAbout -> {
                     d("Ecommerce", "About was pressed")
                 }
+                R.id.actionSetting -> {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.frameLayout, AdminFragment())
+                            .commit()
+                }
             }
             it.isChecked = true
             drawerLayout.closeDrawers()
@@ -73,8 +80,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.actionCart ) {
+            d("aksal", "going to cart")
+            startActivity(Intent(this, CartActivity::class.java))
+            return true
+        }
         drawerLayout.openDrawer(GravityCompat.START)
         return true
 //        return super.onOptionsItemSelected(item)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        return true
+    }
+
 }
