@@ -6,6 +6,7 @@ import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import kotlinx.android.synthetic.main.product_row.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -67,8 +69,8 @@ class MainFragment : Fragment() {
                             val intent = Intent(activity, ProductDetails::class.java)
                             intent.putExtra("title", extraTitle)
                             intent.putExtra("photo_url", extraImageUrl)
-                            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, )
-                            startActivity(intent, options)
+                            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as AppCompatActivity, photo, "photoToAnimate")
+                            startActivity(intent, options.toBundle() )
                         }
                     }
                     progressBar2.visibility = View.GONE
