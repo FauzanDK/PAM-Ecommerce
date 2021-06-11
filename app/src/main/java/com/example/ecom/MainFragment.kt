@@ -6,6 +6,7 @@ import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,46 +63,17 @@ class MainFragment : Fragment() {
                 d("budi","success :)")
                 recycler_view.apply {
                         layoutManager = GridLayoutManager(activity, 2)
-                        adapter = ProductsAdapter(it){
-                            val intent = Intent(parent.context, ProductDetails::class.java)
-                            intent.putExtra("title", products[holder.adapterPosition].title)
-                            intent.putExtra("photo_url", products[holder.adapterPosition].photoUrl)
-                            parent.context.startActivity(intent)
+                        adapter = ProductsAdapter(it){ extraTitle, extraImageUrl ->
+                            val intent = Intent(activity, ProductDetails::class.java)
+                            intent.putExtra("title", extraTitle)
+                            intent.putExtra("photo_url", extraImageUrl)
+                            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, )
+                            startActivity(intent, options)
                         }
                     }
                     progressBar2.visibility = View.GONE
             },{
                 d("budi","error :( ${it.message}")
             })
-
-//        searchButton.setOnClickListener{
-//            doAsync {
-//                val db = Room.databaseBuilder(
-//                    activity!!.applicationContext,
-//                    AppDatabase::class.java, "database-name"
-//                ).build()
-//
-//                val productsFromDatabase = db.productDao().searchFor("%${searchTerm.text}%")
-//                val products = productsFromDatabase.map {
-//                    Product(
-//                        it.title,
-//                        "https://finepointmobile.com/data/jeans1.jpg",
-//                        it.price,
-//                        isOnSale = true
-//                    )
-//                }
-//
-//                uiThread {
-//                    recycler_view.apply {
-//                        layoutManager = GridLayoutManager(activity, 2)
-//                        adapter = ProductsAdapter(products)
-//                    }
-//                    progressBar2.visibility = View.GONE
-//                }
-//            }
-//        }
-
-
     }
-
 }

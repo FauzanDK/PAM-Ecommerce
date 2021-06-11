@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.product_row.view.*
 
 class ProductsAdapter(
     private val products: List<Product>,
-    private val onClickProduct: () -> Unit
+    private val onClickProduct: (title: String, photoUrl: String) -> Unit
 ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
 
@@ -28,7 +28,7 @@ class ProductsAdapter(
             holder.saleImageView.visibility = View.GONE
         }
         holder.image.setOnClickListener{
-            onClickProduct.invoke()
+            onClickProduct.invoke(product.title, product.photoUrl)
         }
     }
 
